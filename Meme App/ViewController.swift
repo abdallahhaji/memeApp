@@ -25,6 +25,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     override func viewWillAppear(animated: Bool) {
         self.tabBarController?.tabBar.hidden = true
+        
+       //  self.navigationItem.leftBarButtonItem?.enabled = false
+        
+        enableDisableShareButton()
+        
+        
     }
     
     override func viewDidLoad() {
@@ -42,7 +48,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
         
         
+        
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "shareMeme")
+        
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "cancel", style: .Plain, target: self, action: "goBackToSentMemes")
         
@@ -57,6 +65,41 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
+    func enableDisableShareButton() {
+    
+        if mainImage.image == nil {
+        
+        self.navigationItem.leftBarButtonItem?.enabled = false
+        } else {
+        
+        self.navigationItem.leftBarButtonItem?.enabled = true
+        }
+    
+    }
+    
+//    
+//    func enableDisableCameraButton() {
+//    
+//        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) == true {
+//        
+//        self.tabBarItem.
+//        
+//        
+//        } else {
+//        
+//        
+//        
+//        
+//        
+//        }
+//        
+//       
+//    
+//    
+//    }
+    
+    
+    
     // assign the picked image to the main image
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
         mainImage.image = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
@@ -64,6 +107,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.dismissViewControllerAnimated(true, completion: nil)
         
         memeInstance = MemeInstance(memeImage: mainImage?.image, memeTextField1: textField1.text, memeTextField2: textField2.text)
+        
+        //self.navigationItem.leftBarButtonItem?.enabled = true
+        //self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "shareMeme")
         
         
         ///testing

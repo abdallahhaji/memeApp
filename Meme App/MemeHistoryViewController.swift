@@ -18,6 +18,8 @@ class MemeHistoryViewController: UIViewController, UITableViewDelegate, UITableV
     
     override func viewDidLoad() {
 
+    
+        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addNewMeme")
     }
 
