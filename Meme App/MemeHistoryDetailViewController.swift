@@ -21,8 +21,8 @@ class MemeHistoryDetailViewController : UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.memeLabel1.text = self.memeInstance.memeTextField1 as? String
-        self.memeLabel2.text = self.memeInstance.memeTextField2 as? String
+        self.memeLabel1.text = ""
+        self.memeLabel2.text = ""
         self.tabBarController?.tabBar.hidden = true
        // self.memeImage!.image = self.memeInstance.memeImage
         self.memeImage!.image = self.memeInstance.memeImageWithText

@@ -52,10 +52,15 @@ class MemeHistoryViewController: UIViewController, UITableViewDelegate, UITableV
         let CellID = "HistoryCell"
         let cell = tableView.dequeueReusableCellWithIdentifier(CellID, forIndexPath: indexPath) as! UITableViewCell
         let memeInstance = self.history[indexPath.row]
-        cell.textLabel!.text = memeInstance.memeTextField1! as String
+       // cell.textLabel!.text = memeInstance.memeTextField1! as String
         // cell.imageView?.image = memeInstance.memeImage!
         cell.imageView?.image = memeInstance.memeImageWithText!
         
+        cell.textLabel!.text = memeInstance.memeTextField1! as String + "..." + (memeInstance.memeTextField2! as String)
+        cell.detailTextLabel!.text = ""
+        
+        
+        println(memeInstance.memeTextField2)
         
         return cell
     }
