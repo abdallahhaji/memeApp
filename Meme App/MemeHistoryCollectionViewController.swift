@@ -16,6 +16,7 @@ class MemeHistoryCollectionViewController: UIViewController, UICollectionViewDat
     // This is an array of Villain instances
    var history: [MemeInstance] = []
     
+    @IBOutlet weak var flowLayout: UICollectionViewFlowLayout!
     
     // MARK: Table View Data Source
     
@@ -29,6 +30,14 @@ class MemeHistoryCollectionViewController: UIViewController, UICollectionViewDat
     
     override func viewDidLoad() {
          self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addNewMeme")
+        
+        let space: CGFloat = 3.0
+        let dimension = (self.view.frame.size.width - (2 * space)) / 3.0
+        
+        flowLayout.minimumInteritemSpacing = space
+        flowLayout.minimumLineSpacing = space
+        flowLayout.itemSize = CGSizeMake(dimension, dimension)
+        
 
     }
     
@@ -54,8 +63,15 @@ class MemeHistoryCollectionViewController: UIViewController, UICollectionViewDat
         
         // Set the name and image
         cell.memeLabel1.text = memeInstance.memeTextField1! as String
-        cell.memeImageView?.image = memeInstance.memeImage!
+        //cell.memeImageView?.image = memeInstance.memeImage!
+        
+        let imageView = UIImageView(image: memeInstance.memeImageWithText!)
+        cell.backgroundView = imageView
+        
+        //cell.memeImageView?.image = memeInstance.memeImageWithText!
         cell.memeLabel2.text = memeInstance.memeTextField1! as String
+        
+        
         
         return cell
     }

@@ -16,11 +16,31 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     @IBOutlet weak var textField1: UITextField!
     @IBOutlet weak var textField2: UITextField!
     
+    @IBOutlet weak var toolBar: UIToolbar!
+    
+    @IBOutlet weak var cameraButton: UIBarButtonItem!
+    
     // assisgn history
     
     var history = [MemeInstance]()
     let imagePicker = UIImagePickerController()
-    var memeInstance = MemeInstance(memeImage: nil, memeTextField1: nil, memeTextField2: nil)
+    var memeInstance = MemeInstance(memeImage: nil, memeTextField1: nil, memeTextField2: nil, memeImageWithText: nil)
+    
+  
+    
+    
+    
+    let memeTextAttributes = [
+        NSStrokeColorAttributeName : UIColor.blackColor(),
+        NSForegroundColorAttributeName : UIColor.whiteColor(),
+        NSFontAttributeName : UIFont(name: "HelveticaNeue-CondensedBlack", size: 40)!,
+        NSStrokeWidthAttributeName : -3.0
+    ]
+    
+    
+    
+    
+    
     
     
     override func viewWillAppear(animated: Bool) {
@@ -30,6 +50,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         enableDisableShareButton()
         
+        enableDisableCameraButton()
         
     }
     
@@ -52,8 +73,27 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "shareMeme")
         
         
-        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "cancel", style: .Plain, target: self, action: "goBackToSentMemes")
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: "goBackToSentMemes")
         
+        
+        
+        
+       // textField1.attributedText = NSAttributedString(string: "Top", attributes: memeTextAttributes)
+        
+        textField2.attributedPlaceholder = NSAttributedString(string: "BOTTOM", attributes: memeTextAttributes)
+        
+        textField1.attributedPlaceholder = NSAttributedString(string: "TOP", attributes: memeTextAttributes)
+        
+       
+        textField1.defaultTextAttributes = memeTextAttributes
+        textField2.defaultTextAttributes = memeTextAttributes
+        
+        // self.textField1.clearsOnBeginEditing = true
+        
+        //self.textField2.clearsOnBeginEditing = true
+        
+       
+        //self.textField1.placeholder = "Top"
         
     }
     
@@ -77,26 +117,28 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     }
     
-//    
-//    func enableDisableCameraButton() {
-//    
-//        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) == true {
-//        
-//        self.tabBarItem.
-//        
-//        
-//        } else {
-//        
-//        
-//        
-//        
-//        
-//        }
-//        
-//       
-//    
-//    
-//    }
+    
+    func enableDisableCameraButton() {
+    
+        if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) == true {
+        
+        self.cameraButton.enabled = true
+        
+        
+        } else {
+            
+            self.cameraButton.enabled = false
+        
+        
+        
+        
+        
+        }
+        
+       
+    
+    
+    }
     
     
     
@@ -106,7 +148,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         //memeInstance.memeImage = mainImage!.image!
         self.dismissViewControllerAnimated(true, completion: nil)
         
-        memeInstance = MemeInstance(memeImage: mainImage?.image, memeTextField1: textField1.text, memeTextField2: textField2.text)
+        memeInstance = MemeInstance(memeImage: mainImage?.image, memeTextField1: textField1.text, memeTextField2: textField2.text, memeImageWithText: nil)
         
         //self.navigationItem.leftBarButtonItem?.enabled = true
         //self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "shareMeme")
@@ -138,6 +180,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return true
     }
     
+//    func textFieldDidBeginEditing(textField: UITextField) {
+//        self.textField1.placeholder = nil
+//    }
     
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
@@ -155,11 +200,59 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     }
     
     
+    
+    func takeScreenShotOfMeme() {
+    
+    UIGraphicsBeginImageContextWithOptions(view.frame.size, true, 0.0)
+    
+    view.layer.renderInContext(UIGraphicsGetCurrentContext())
+        let memeImageWithTextFields = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        self.memeInstance.memeImageWithText = memeImageWithTextFields
+        
+        
+        
+    }
+    
+    
+    func generateMemedImage() {
+        
+        // TODO: Hide toolbar and navbar
+        
+        self.navigationController?.navigationBarHidden = true
+       
+        self.toolBar.hidden = true
+        
+        
+        // Render view to an image
+        UIGraphicsBeginImageContext(self.view.frame.size)
+        self.view.drawViewHierarchyInRect(self.view.frame,
+            afterScreenUpdates: true)
+        let memedImage : UIImage =
+        UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        // TODO:  Show toolbar and navbar
+        
+        self.memeInstance.memeImageWithText = memedImage
+        
+        self.navigationController?.navigationBarHidden = false
+       
+        self.toolBar.hidden = false
+    }
+    
+    
+    
     func shareMeme() {
         
-        memeInstance = MemeInstance(memeImage: mainImage?.image, memeTextField1: textField1.text, memeTextField2: textField2.text)
-        let activityItems: MemeInstance = MemeInstance(memeImage: memeInstance.memeImage, memeTextField1: memeInstance.memeTextField1, memeTextField2: memeInstance.memeTextField2)
-        let avc = UIActivityViewController(activityItems: [memeInstance.memeImage!, memeInstance.memeTextField1!, memeInstance.memeTextField2!], applicationActivities: nil)
+        //takeScreenShotOfMeme()
+        
+        generateMemedImage()
+        
+        memeInstance = MemeInstance(memeImage: mainImage?.image, memeTextField1: textField1.text, memeTextField2: textField2.text, memeImageWithText: self.memeInstance.memeImageWithText)
+        let activityItems: MemeInstance = MemeInstance(memeImage: memeInstance.memeImage, memeTextField1: memeInstance.memeTextField1, memeTextField2: memeInstance.memeTextField2, memeImageWithText: self.memeInstance.memeImageWithText)
+        let avc = UIActivityViewController(activityItems: [memeInstance.memeImage!, memeInstance.memeTextField1!, memeInstance.memeTextField2!, self.memeInstance.memeImageWithText!], applicationActivities: nil)
         self.presentViewController(avc, animated: true, completion: nil)
         avc.completionWithItemsHandler = doneSharingHandler
         
@@ -168,16 +261,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     func doneSharingHandler(activityType: String!, completed: Bool, returnedItems: [AnyObject]!, error: NSError!) {
         // Return if cancelled
-        memeInstance = MemeInstance(memeImage: mainImage?.image, memeTextField1: textField1.text, memeTextField2: textField2.text)
-        memeInstance.test = "testing"
+        memeInstance = MemeInstance(memeImage: mainImage?.image, memeTextField1: textField1.text, memeTextField2: textField2.text, memeImageWithText: self.memeInstance.memeImageWithText)
+        
         if (!completed) {
             return
         }
             
         else {
             
+            
             self.history.append(memeInstance)
             performSegueWithIdentifier("Meme History", sender: self)
+            println(self.memeInstance.memeImageWithText)
             
         }
         

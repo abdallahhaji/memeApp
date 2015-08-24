@@ -14,15 +14,15 @@ struct MemeInstance {
     var memeImage: UIImage?
     var memeTextField1: NSString?
     var memeTextField2: NSString?
-    var test: String?
+    var memeImageWithText: UIImage?
     
-    init(memeImage: UIImage?, memeTextField1: NSString?, memeTextField2: NSString?) {
+    init(memeImage: UIImage?, memeTextField1: NSString?, memeTextField2: NSString?, memeImageWithText: UIImage?) {
         
         
         self.memeImage = memeImage
         self.memeTextField1 = memeTextField1
         self.memeTextField2 = memeTextField2
-        
+        self.memeImageWithText = memeImageWithText
         
     }
 

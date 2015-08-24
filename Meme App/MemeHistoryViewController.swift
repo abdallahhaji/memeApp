@@ -28,6 +28,9 @@ class MemeHistoryViewController: UIViewController, UITableViewDelegate, UITableV
         self.tableView.reloadData()
         
         println(self.history.count)
+        
+    
+    
     }
     
     func addNewMeme() {
@@ -50,7 +53,9 @@ class MemeHistoryViewController: UIViewController, UITableViewDelegate, UITableV
         let cell = tableView.dequeueReusableCellWithIdentifier(CellID, forIndexPath: indexPath) as! UITableViewCell
         let memeInstance = self.history[indexPath.row]
         cell.textLabel!.text = memeInstance.memeTextField1! as String
-        cell.imageView?.image = memeInstance.memeImage!
+        // cell.imageView?.image = memeInstance.memeImage!
+        cell.imageView?.image = memeInstance.memeImageWithText!
+        
         
         return cell
     }
