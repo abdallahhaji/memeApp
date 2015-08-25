@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+class AddNewMemeViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
     // variables for Meme picture, 2 textfields, Toolbar & camera button defined
     
@@ -243,7 +243,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             var navController: AnyObject? = tabBarController.viewControllers?.first
             
             // use nave controller to get a hold of the tableview
-            var destinationViewController_History : MemeHistoryViewController = navController!.viewControllers?.first as! MemeHistoryViewController;
+            var destinationViewController_History : MemeHistoryTableViewController = navController!.viewControllers?.first as! MemeHistoryTableViewController;
             
             //create another instance of nav controller -> placed before the collectionview
             var navController2: AnyObject? = tabBarController.viewControllers?.last

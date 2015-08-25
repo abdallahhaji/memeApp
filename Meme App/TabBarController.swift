@@ -22,7 +22,7 @@ class TabBarController: UITabBarController {
     }
     
     func addNewMeme() {
-        let detailController = self.storyboard!.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+        let detailController = self.storyboard!.instantiateViewControllerWithIdentifier("AddNewMemeViewController") as! AddNewMemeViewController
        
                 self.navigationController?.pushViewController(detailController, animated: true)
 

@@ -9,7 +9,7 @@
         <!--Item-->
         <scene sceneID="ufC-wZ-h7g">
             <objects>
-                <viewController storyboardIdentifier="ViewController" id="vXZ-lx-hvc" customClass="ViewController" customModule="Meme_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AddNewMemeViewController" id="vXZ-lx-hvc" customClass="AddNewMemeViewController" customModule="Meme_App" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="jyV-Pf-zRb"/>
                         <viewControllerLayoutGuide type="bottom" id="2fi-mo-0CV"/>
@@ -196,7 +196,7 @@
         <!--Sent Memes-->
         <scene sceneID="Y4W-aO-mxe">
             <objects>
-                <viewController storyboardIdentifier="MemeHistoryViewController" title="Sent Memes" id="6rA-b3-8It" customClass="MemeHistoryViewController" customModule="Meme_App" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MemeHistoryTableViewController" title="Sent Memes" id="6rA-b3-8It" customClass="MemeHistoryTableViewController" customModule="Meme_App" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="2cf-xc-f8M"/>
                         <viewControllerLayoutGuide type="bottom" id="sa8-SM-3Is"/>
@@ -281,18 +281,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="VLp-Cu-qE2">
-                                <rect key="frame" x="286" y="216" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" misplaced="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tDU-nS-OAx">
-                                <rect key="frame" x="286" y="319" width="42" height="21"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="FY0-wQ-9fA">
                                 <rect key="frame" x="0.0" y="14" width="600" height="572"/>
                                 <constraints>
@@ -325,18 +313,14 @@
                             <constraint firstAttribute="trailingMargin" secondItem="FY0-wQ-9fA" secondAttribute="trailing" constant="-16" id="7V3-Ra-uF6"/>
                             <constraint firstItem="FY0-wQ-9fA" firstAttribute="leading" secondItem="XHF-Wg-ehQ" secondAttribute="leadingMargin" constant="-16" id="AfC-QY-6uj"/>
                             <constraint firstItem="FY0-wQ-9fA" firstAttribute="top" secondItem="TB7-3h-q1e" secondAttribute="bottom" id="CVh-4p-6aL"/>
-                            <constraint firstItem="FY0-wQ-9fA" firstAttribute="top" secondItem="VLp-Cu-qE2" secondAttribute="bottom" constant="-118" id="DH6-Cp-ctF"/>
                             <constraint firstItem="aAM-Pp-46C" firstAttribute="top" secondItem="FY0-wQ-9fA" secondAttribute="bottom" constant="14" id="ICH-FQ-Exd"/>
                             <constraint firstItem="FY0-wQ-9fA" firstAttribute="leading" secondItem="XHF-Wg-ehQ" secondAttribute="leadingMargin" constant="-16" id="Lne-zy-GTB"/>
                             <constraint firstItem="FY0-wQ-9fA" firstAttribute="top" secondItem="XHF-Wg-ehQ" secondAttribute="topMargin" constant="14" id="MnD-UW-HLw"/>
-                            <constraint firstItem="FY0-wQ-9fA" firstAttribute="leading" secondItem="VLp-Cu-qE2" secondAttribute="trailing" constant="-197" id="P7b-37-zDl"/>
                             <constraint firstAttribute="centerX" secondItem="FY0-wQ-9fA" secondAttribute="centerX" constant="-7" id="Yud-aZ-uHD"/>
                             <constraint firstItem="aAM-Pp-46C" firstAttribute="top" secondItem="FY0-wQ-9fA" secondAttribute="bottom" id="ZqY-Bv-Ko9"/>
-                            <constraint firstItem="tDU-nS-OAx" firstAttribute="top" secondItem="FY0-wQ-9fA" secondAttribute="bottom" constant="-99" id="dLJ-el-XOk"/>
                             <constraint firstAttribute="centerX" secondItem="FY0-wQ-9fA" secondAttribute="centerX" id="gRJ-s0-nxw"/>
                             <constraint firstAttribute="centerY" secondItem="FY0-wQ-9fA" secondAttribute="centerY" constant="31.5" id="gRP-Kq-7at"/>
                             <constraint firstAttribute="centerY" secondItem="FY0-wQ-9fA" secondAttribute="centerY" constant="14" id="gmN-n5-mHY"/>
-                            <constraint firstItem="tDU-nS-OAx" firstAttribute="leading" secondItem="FY0-wQ-9fA" secondAttribute="trailing" constant="-197" id="hWS-Dk-cST"/>
                             <constraint firstAttribute="centerY" secondItem="FY0-wQ-9fA" secondAttribute="centerY" id="sOV-hF-seQ"/>
                             <constraint firstAttribute="trailingMargin" secondItem="FY0-wQ-9fA" secondAttribute="trailing" constant="-16" id="yxk-DJ-hVE"/>
                         </constraints>
@@ -346,21 +330,15 @@
                                 <exclude reference="7V3-Ra-uF6"/>
                                 <exclude reference="AfC-QY-6uj"/>
                                 <exclude reference="CVh-4p-6aL"/>
-                                <exclude reference="DH6-Cp-ctF"/>
-                                <exclude reference="P7b-37-zDl"/>
                                 <exclude reference="Yud-aZ-uHD"/>
                                 <exclude reference="gRP-Kq-7at"/>
                                 <exclude reference="gmN-n5-mHY"/>
-                                <exclude reference="dLJ-el-XOk"/>
-                                <exclude reference="hWS-Dk-cST"/>
                                 <exclude reference="ZqY-Bv-Ko9"/>
                             </mask>
                         </variation>
                     </view>
                     <connections>
                         <outlet property="memeImage" destination="FY0-wQ-9fA" id="b8w-5A-tBj"/>
-                        <outlet property="memeLabel1" destination="VLp-Cu-qE2" id="i6f-ZA-qFZ"/>
-                        <outlet property="memeLabel2" destination="tDU-nS-OAx" id="GFQ-Kj-sup"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2rR-hk-XcE" userLabel="First Responder" sceneMemberID="firstResponder"/>

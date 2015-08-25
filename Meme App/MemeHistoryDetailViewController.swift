@@ -12,17 +12,15 @@ import UIKit
 
 class MemeHistoryDetailViewController : UIViewController {
     
-
+    // defined variable for the image
     @IBOutlet weak var memeImage: UIImageView!
-    @IBOutlet weak var memeLabel1: UILabel!
-    @IBOutlet weak var memeLabel2: UILabel!
+
     
     var memeInstance: MemeInstance!
     
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(animated)
-        self.memeLabel1.text = ""
-        self.memeLabel2.text = ""
+        
         // hide tab bar as no need to switch b/w collection & table
         self.tabBarController?.tabBar.hidden = true
         // assign meme to the main Image
@@ -34,9 +32,4 @@ class MemeHistoryDetailViewController : UIViewController {
         self.tabBarController?.tabBar.hidden = false
     }
 }
-
-
-
-
-
 

@@ -9,7 +9,7 @@
 import Foundation
 import UIKit
 
-class MemeHistoryViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class MemeHistoryTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
     
     // outlet for tableview and history array to store the meme model
     @IBOutlet weak var tableView: UITableView!
@@ -31,7 +31,7 @@ class MemeHistoryViewController: UIViewController, UITableViewDelegate, UITableV
     
     // segue to Edit Meme View Controller when button clicked
     func addNewMeme() {
-        let detailController = self.storyboard!.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+        let detailController = self.storyboard!.instantiateViewControllerWithIdentifier("AddNewMemeViewController") as! AddNewMemeViewController
         detailController.history = self.history
         self.navigationController?.pushViewController(detailController, animated: true)
     }

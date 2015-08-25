@@ -44,7 +44,7 @@ class MemeHistoryCollectionViewController: UIViewController, UICollectionViewDat
     
     // segue to new Edit Meme controller
     func addNewMeme() {
-        let detailController = self.storyboard!.instantiateViewControllerWithIdentifier("ViewController") as! ViewController
+        let detailController = self.storyboard!.instantiateViewControllerWithIdentifier("AddNewMemeViewController") as! AddNewMemeViewController
         detailController.history = self.history
         self.navigationController?.pushViewController(detailController, animated: true)
         
