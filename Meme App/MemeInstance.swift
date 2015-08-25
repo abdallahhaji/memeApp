@@ -11,13 +11,14 @@ import UIKit
 
 struct MemeInstance {
     
+    // Data model - Each instance contains an image (camera/album) + 2 textfields + 1 meme
     var memeImage: UIImage?
     var memeTextField1: NSString?
     var memeTextField2: NSString?
     var memeImageWithText: UIImage?
     
+    // initializing requires a parameter for each variable within the struct
     init(memeImage: UIImage?, memeTextField1: NSString?, memeTextField2: NSString?, memeImageWithText: UIImage?) {
-        
         
         self.memeImage = memeImage
         self.memeTextField1 = memeTextField1
@@ -26,5 +27,4 @@ struct MemeInstance {
         
     }
 
-    
 }

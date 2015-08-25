@@ -10,26 +10,22 @@ import UIKit
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
     
-    // variables for MemeImage and 2 textfields defined
+    // variables for Meme picture, 2 textfields, Toolbar & camera button defined
     
     @IBOutlet weak var mainImage: UIImageView!
     @IBOutlet weak var textField1: UITextField!
     @IBOutlet weak var textField2: UITextField!
-    
     @IBOutlet weak var toolBar: UIToolbar!
-    
     @IBOutlet weak var cameraButton: UIBarButtonItem!
     
-    // assisgn history
+    // assigning an instance of the meme model to memeInstance & defining the image picking constant
     
     var history = [MemeInstance]()
     let imagePicker = UIImagePickerController()
     var memeInstance = MemeInstance(memeImage: nil, memeTextField1: nil, memeTextField2: nil, memeImageWithText: nil)
     
-  
     
-    
-    
+    // attributes for the text fields and placholder text
     let memeTextAttributes = [
         NSStrokeColorAttributeName : UIColor.blackColor(),
         NSForegroundColorAttributeName : UIColor.whiteColor(),
@@ -37,279 +33,151 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         NSStrokeWidthAttributeName : -3.0
     ]
     
-    
-    
-    
-    
-    
-    
     override func viewWillAppear(animated: Bool) {
+        
+        // hide inhertied tab bar for this view controller since we need a tool bar
         self.tabBarController?.tabBar.hidden = true
         
-       //  self.navigationItem.leftBarButtonItem?.enabled = false
+        // used to move keyboard up down
+        self.subscribeToKeyboardNotifications()
         
-         self.subscribeToKeyboardNotifications()
-        
+        // disable camera button if no access to camera.. and disable share button if no image is selected
         enableDisableShareButton()
-        
         enableDisableCameraButton()
-        
     }
     
-    
+// unsubscribe from notifications when view dissappears
     override func viewWillDisappear(animated: Bool) {
         super.viewWillDisappear(animated)
         self.unsubscribeFromKeyboardNotifications()
-        
-        
     }
-    
-    
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        
-  
 
-        
+        // assign delegates for the image picker and textfields
         imagePicker.delegate = self
         textField1.delegate = self
         textField2.delegate = self
         
         // UIView move up when keyboard is displayed
-        
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillShow:"), name:UIKeyboardWillShowNotification, object: nil);
         NSNotificationCenter.defaultCenter().addObserver(self, selector: Selector("keyboardWillHide:"), name:UIKeyboardWillHideNotification, object: nil);
         
-        
-        
+        // Share button and Cancel buttons
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "shareMeme")
-        
-        
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Cancel", style: .Plain, target: self, action: "goBackToSentMemes")
         
-        
-        
-        
-       // textField1.attributedText = NSAttributedString(string: "Top", attributes: memeTextAttributes)
-        
+      // attributes for the textfields/palceholders as defined above
         textField2.attributedPlaceholder = NSAttributedString(string: "BOTTOM", attributes: memeTextAttributes)
-        
         textField1.attributedPlaceholder = NSAttributedString(string: "TOP", attributes: memeTextAttributes)
-        
-       
         textField1.defaultTextAttributes = memeTextAttributes
         textField2.defaultTextAttributes = memeTextAttributes
-        
-        // self.textField1.clearsOnBeginEditing = true
-        
-        //self.textField2.clearsOnBeginEditing = true
-        
-       
-        //self.textField1.placeholder = "Top"
-        
     }
     
+    // return to sent Memes if Cancel is clicked
     func goBackToSentMemes() {
-    
-    
-     performSegueWithIdentifier("Meme History", sender: self)
-    
+        performSegueWithIdentifier("Meme History", sender: self)
     }
-    
-    
-    
-    
     
 
-    
-    
-    
-    
-    
+    // if the uiimage is empty, disable the share button
     func enableDisableShareButton() {
-    
         if mainImage.image == nil {
-        
-        self.navigationItem.leftBarButtonItem?.enabled = false
+            self.navigationItem.leftBarButtonItem?.enabled = false
         } else {
-        
-        self.navigationItem.leftBarButtonItem?.enabled = true
+            self.navigationItem.leftBarButtonItem?.enabled = true
         }
-    
     }
     
-    
+    // if no camera source type -> disable the camera button
     func enableDisableCameraButton() {
-    
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerControllerSourceType.Camera) == true {
-        
-        self.cameraButton.enabled = true
-        
-        
+            self.cameraButton.enabled = true
         } else {
-            
             self.cameraButton.enabled = false
-        
-        
-        
-        
-        
         }
-        
-       
-    
-    
     }
+
     
-    
-    
-    // assign the picked image to the main image
     func imagePickerController(picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [NSObject : AnyObject]) {
+       
+        // assign the picked image to the main image
         mainImage.image = (info[UIImagePickerControllerOriginalImage] as? UIImage)!
-        //memeInstance.memeImage = mainImage!.image!
+        
+        // dismiss the image picker animation
         self.dismissViewControllerAnimated(true, completion: nil)
-        
-        memeInstance = MemeInstance(memeImage: mainImage?.image, memeTextField1: textField1.text, memeTextField2: textField2.text, memeImageWithText: nil)
-        
-        //self.navigationItem.leftBarButtonItem?.enabled = true
-        //self.navigationItem.leftBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Action, target: self, action: "shareMeme")
-        
-        
-        ///testing
-      //  self.history.append(memeInstance)
-        
+       /// memeInstance = MemeInstance(memeImage: mainImage?.image, memeTextField1: textField1.text, memeTextField2: textField2.text, memeImageWithText: nil)
     }
-    
-    
-    // pick an image from the pick button
+
+    // Album Button to pick an image
     @IBAction func pickImage(sender: AnyObject) {
         self.presentViewController(imagePicker, animated: true, completion: nil)
     }
-    
-    
- 
+
+    // Access Camera
     @IBAction func pickImageFromCamera(sender: AnyObject) {
-        
+        // dont allow editing...Camera is source type.. allow photos only
         imagePicker.allowsEditing = false
         imagePicker.sourceType = UIImagePickerControllerSourceType.Camera
         imagePicker.cameraCaptureMode = .Photo
         self.presentViewController(imagePicker, animated: true, completion: nil)
     }
     
-    
+  // textfield delegate -> edit text field
     func textFieldShouldBeginEditing(textField: UITextField) -> Bool {
         return true
     }
     
-//    func textFieldDidBeginEditing(textField: UITextField) {
-//        self.textField1.placeholder = nil
-//    }
-    
+    // textfield delegate -> resign first responder on return button
     func textFieldShouldReturn(textField: UITextField) -> Bool {
         textField.resignFirstResponder()
-        
         return true;
-        
     }
     
-    
 
-    
+    // get a hold of keyboard height
     func getKeyboardHeight(notification: NSNotification) -> CGFloat {
         let userInfo = notification.userInfo
         let keyboardSize = userInfo![UIKeyboardFrameEndUserInfoKey] as! NSValue // of CGRect
         return keyboardSize.CGRectValue().height
     }
     
-    
-
-    
+    // get access to notification messages -> used for keyboard
     func subscribeToKeyboardNotifications() {
         NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillShow:"    , name: UIKeyboardWillShowNotification, object: nil)
-     NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:"    , name: UIKeyboardWillHideNotification, object: nil)
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "keyboardWillHide:"    , name: UIKeyboardWillHideNotification, object: nil)
     }
     
+    // remove notification messages -> used for keyboard
     func unsubscribeFromKeyboardNotifications() {
         NSNotificationCenter.defaultCenter().removeObserver(self, name:
             UIKeyboardWillShowNotification, object: nil)
-        
         NSNotificationCenter.defaultCenter().removeObserver(self, name:
             UIKeyboardWillHideNotification, object: nil)
         
     }
     
-    
-    
-    
-    
-    
-//    func keyboardWillShow(sender: NSNotification) {
-//        self.view.frame.origin.y -= 150
-//    }
-    
-    func keyboardWillHide(notification: NSNotification) {
-       
-    
-        if self.textField2.isFirstResponder() == true {
-             self.view.frame.origin.y += getKeyboardHeight(notification)
-        }
-    
-    }
-    
-    
-    
-    
-    
+    // for the bottom text field -> move UI up to prevent hiding
     func keyboardWillShow(notification: NSNotification) {
-        
-    
         if self.textField2.isFirstResponder() == true {
             self.view.frame.origin.y -= getKeyboardHeight(notification)
         }
+    }
 
-    
+    // bottom textield -> move UI down by keyboard height when first responder resigned
+    func keyboardWillHide(notification: NSNotification) {
+        if self.textField2.isFirstResponder() == true {
+            self.view.frame.origin.y += getKeyboardHeight(notification)
+        }
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    func takeScreenShotOfMeme() {
-    
-    UIGraphicsBeginImageContextWithOptions(view.frame.size, true, 0.0)
-    
-    view.layer.renderInContext(UIGraphicsGetCurrentContext())
-        let memeImageWithTextFields = UIGraphicsGetImageFromCurrentImageContext()
-        UIGraphicsEndImageContext()
-        
-        self.memeInstance.memeImageWithText = memeImageWithTextFields
-        
-        
-        
-    }
-    
     
     // create a meme by taking a screenshot of the view, minue the toolbar and nav bar
     func generateMemedImage() {
         
-       
+        
         // hide the tool bar + nav bar while the screenshot is being taken
         self.navigationController?.navigationBarHidden = true
-       
         self.toolBar.hidden = true
         
         
@@ -327,24 +195,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // bring the tool bar + nav bar back, once the screenshot it taken.
         self.navigationController?.navigationBarHidden = false
-       
         self.toolBar.hidden = false
     }
     
-    
-    
- 
-    
-    
-    
-    
+
     // generate the meme and pass the meme instance to the the activity view controller.
-    
     func shareMeme() {
-        
-       
         generateMemedImage()
-        
         memeInstance = MemeInstance(memeImage: mainImage?.image, memeTextField1: textField1.text, memeTextField2: textField2.text, memeImageWithText: self.memeInstance.memeImageWithText)
         let activityItems: MemeInstance = MemeInstance(memeImage: memeInstance.memeImage, memeTextField1: memeInstance.memeTextField1, memeTextField2: memeInstance.memeTextField2, memeImageWithText: self.memeInstance.memeImageWithText)
         let avc = UIActivityViewController(activityItems: [memeInstance.memeImage!, memeInstance.memeTextField1!, memeInstance.memeTextField2!, self.memeInstance.memeImageWithText!], applicationActivities: nil)
@@ -352,66 +209,54 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         // when the avc is dismissed -> if completed, segue to new controller. if cancelled, return to the meme editor
         avc.completionWithItemsHandler = doneSharingHandler
-        
-        
     }
     
-    
-    
+
     // once the avc is completed, either segue to the new view, or return if cancelled
     func doneSharingHandler(activityType: String!, completed: Bool, returnedItems: [AnyObject]!, error: NSError!) {
         // Return if cancelled
         memeInstance = MemeInstance(memeImage: mainImage?.image, memeTextField1: textField1.text, memeTextField2: textField2.text, memeImageWithText: self.memeInstance.memeImageWithText)
-        
         if (!completed) {
             return
         }
-            
         else {
             
-            
+            // store the meme image, the meme, and 2 textfields in the history array of type memeinstance
             self.history.append(memeInstance)
+            // perform the segway
             performSegueWithIdentifier("Meme History", sender: self)
-            println(self.memeInstance.memeImageWithText)
-            
         }
-        
 
-        
         /// what i was using for segue
         let storyboard = self.storyboard
-        
-        
-        
+
     }
     
     // segue to the meme history table view controller. Pass all data(2 images + 2 text fields) to both the collection view and table view
-    
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        
         if segue.identifier == "Meme History" {
-
+            
+           // get a hold of the tab bar
             var tabBarController: UITabBarController = segue.destinationViewController as! UITabBarController
+            
+            // get a hold of the nav controller in b/w the tab bar controller and the destination view controller -> MemeHistory in tableview
             var navController: AnyObject? = tabBarController.viewControllers?.first
+            
+            // use nave controller to get a hold of the tableview
             var destinationViewController_History : MemeHistoryViewController = navController!.viewControllers?.first as! MemeHistoryViewController;
-
+            
+            //create another instance of nav controller -> placed before the collectionview
             var navController2: AnyObject? = tabBarController.viewControllers?.last
             
+            // use nav controller 2 to get a hold of the collection view controller
             var destinationViewController_History_2: MemeHistoryCollectionViewController = navController2!.viewControllers?.first as! MemeHistoryCollectionViewController
-
             
-             destinationViewController_History.history = self.history
-             destinationViewController_History_2.history = self.history
-            
-        
+            // append the history array in both view controller with the history array in this view controller
+            destinationViewController_History.history = self.history
+            destinationViewController_History_2.history = self.history
             
         }
-
-        
     }
-    
-
-    
 }
 
 
@@ -427,137 +272,3 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-// var tabBarCOntroller : UITabBarController = segue.destinationViewController as! UITabBarController;
-
-
-
-//var destinationViewController_History : MemeHistoryViewController = tabBarController.viewControllers?.first as! MemeHistoryViewController;
-
-// til here
-
-
-
-
-
-
-
-
-
-
-
-//   let controller = self.storyboard?.instantiateViewControllerWithIdentifier("MemeHistoryViewController")as! MemeHistoryViewController
-
-// till here
-
-
-
-
-
-
-
-// let controller = self.storyboard?.instantiateViewControllerWithIdentifier("MemeHistoryCollectionViewController")as! MemeHistoryCollectionViewController
-
-// let controller = self.storyboard?.instantiateViewControllerWithIdentifier("TabBarController")as! UITabBarController
-
-
-// let firstViewController = controller.viewControllers?.first as! MemeHistoryViewController
-
-
-// was also using this
-
-//  firstViewController.history.append(memeInstance)
-
-//  self.presentViewController(firstViewController, animated: true, completion: nil)
-
-
-
-//wasnt using this line
-//self.navigationController?.pushViewController(controller, animated: true)
-
-
-
-
-
-/// most important one -> could be for the image picker allocation
-
-
-// allocating the picked image to main image -> however not yet setting it as the main image
-//        func imagePickerController(picker: UIImagePickerController, didFinishPickingImage image: UIImage!, editingInfo: [NSObject : AnyObject]!) {
-//            self.mainImage.image = image
-//            self.dismissViewControllerAnimated(true, completion: nil)
-//        }
-// mainImage.image = memeInstance.memeImage
-
-
-
-/// also important
-//  var memeHistory = [MemeHistoryViewController]()
-
-
-
-
-
-//        let memeInstance : MemeInstance = MemeInstance(memeImage: mainImage.image!, memeTextField1: textField1.text, memeTextField2: textField2.text)
-
-
-//          memeInstance.memeImage = mainImage!.image!
-//          memeInstance.memeTextField1 = textField1.text
-//           memeInstance.memeTextField2 = textField2.text
-
-//            controller.history[0].memeImage = memeInstance.memeImage
-//            controller.history[0].memeTextField1 = memeInstance.memeTextField1
-//            controller.history[0].memeTextField2 = memeInstance.memeTextField2
-//append(memeInstance)
-
-
-
-//    let image = UIImage()
-//    let controller = UIActivityViewController(activityItems: [image], applicationActivities: nil)
-//
-//    self.presentViewController(controller, animated: true, completion: nil)
-
-
-
-/// http://stackoverflow.com/questions/28211993/how-to-use-uibarbuttonsystemitem-to-change-uibarbuttonitem-identifier-swift
-
-
-
-
-// var memeInstance = MemeInstance(memeImage: self.mainImage.image!, memeTextField1: textField1.text, memeTextField2: textField2.text)
-
-
-//    mainImage?.image = memeInstance.memeImage
-//    memeInstance.memeTextField1 = textField1.text
-//    memeInstance.memeTextField2 = textField2.text
-
-//        memeInstance = MemeInstance(memeImage: mainImage?.image, memeTextField1: textField1.text, memeTextField2: textField2.text)
-
-
-// textField1.text = memeInstance.memeTextField1 as String
-//textField2.text = memeInstance.memeTextField2 as String
-
-
-//        let avc = UIActivityViewController(activityItems: [memeInstance.memeImage, memeInstance.memeTextField1, memeInstance.memeTextField2], applicationActivities: nil)
-
-
-// avc.completionWithItemsHandler = doneSharingHandler
-
-
-
-
-
-
-//code i was using

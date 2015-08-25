@@ -23,8 +23,9 @@ class MemeHistoryDetailViewController : UIViewController {
         super.viewWillAppear(animated)
         self.memeLabel1.text = ""
         self.memeLabel2.text = ""
+        // hide tab bar as no need to switch b/w collection & table
         self.tabBarController?.tabBar.hidden = true
-       // self.memeImage!.image = self.memeInstance.memeImage
+        // assign meme to the main Image
         self.memeImage!.image = self.memeInstance.memeImageWithText
     }
     
