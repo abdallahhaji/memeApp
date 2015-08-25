@@ -55,8 +55,27 @@ class MemeHistoryViewController: UIViewController, UITableViewDelegate, UITableV
        // cell.textLabel!.text = memeInstance.memeTextField1! as String
         // cell.imageView?.image = memeInstance.memeImage!
         cell.imageView?.image = memeInstance.memeImageWithText!
+        cell.imageView?.transform = CGAffineTransformMakeScale(1.5, 0.75)
+        
+//        if memeInstance.memeTextField1 == nil && memeInstance.memeTextField2 == nil {
+//        
+//        cell.textLabel!.text = "Top...Bottom"
+//        
+//        } else if memeInstance.memeTextField1 == nil && memeInstance.memeTextField2 != nil {
+//        
+//        cell.textLabel!.text = "Top" + (memeInstance.memeTextField2 as! String)
+//        
+//        
+//        } else if memeInstance.memeTextField1 != nil && memeInstance.memeTextField2 == nil {
+//        
+//        cell.textLabel!.text = (memeInstance.memeTextField1 as! String) + "Bottom"
+//        
+//        } else {
         
         cell.textLabel!.text = memeInstance.memeTextField1! as String + "..." + (memeInstance.memeTextField2! as String)
+        
+        
+        
         cell.detailTextLabel!.text = ""
         
         

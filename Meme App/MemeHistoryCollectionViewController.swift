@@ -29,9 +29,11 @@ class MemeHistoryCollectionViewController: UIViewController, UICollectionViewDat
 
     
     override func viewDidLoad() {
+        
+        super.viewDidLoad()
          self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addNewMeme")
         
-        let space: CGFloat = 3.0
+        let space: CGFloat = 2.0
         let dimension = (self.view.frame.size.width - (2 * space)) / 3.0
         
         flowLayout.minimumInteritemSpacing = space
@@ -62,14 +64,14 @@ class MemeHistoryCollectionViewController: UIViewController, UICollectionViewDat
        let memeInstance = self.history[indexPath.row]
         
         // Set the name and image
-        cell.memeLabel1.text = memeInstance.memeTextField1! as String
+        //cell.memeLabel1.text = memeInstance.memeTextField1! as String
         //cell.memeImageView?.image = memeInstance.memeImage!
         
         let imageView = UIImageView(image: memeInstance.memeImageWithText!)
         cell.backgroundView = imageView
         
         //cell.memeImageView?.image = memeInstance.memeImageWithText!
-        cell.memeLabel2.text = memeInstance.memeTextField1! as String
+       // cell.memeLabel2.text = memeInstance.memeTextField1! as String
         
         
         
