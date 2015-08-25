@@ -20,6 +20,8 @@ class MemeHistoryTableViewController: UIViewController, UITableViewDelegate, UIT
         
         // nav button -> system button to add new memes
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addNewMeme")
+        
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyle.None
     }
     
     

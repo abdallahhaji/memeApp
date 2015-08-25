@@ -212,6 +212,20 @@ class AddNewMemeViewController: UIViewController, UIImagePickerControllerDelegat
     }
     
 
+    // if 2 textfields are left empty -> turn their placeholder text into the stored text
+    func turnPlaceholderTextIntoActualTextIfTextFieldsLeftEmpty () {
+    
+        if self.memeInstance.memeTextField1 == "" {
+        
+        self.memeInstance.memeTextField1 = "TOP"
+        }
+        
+        if self.memeInstance.memeTextField2 == "" {
+        self.memeInstance.memeTextField2 = "BOTTOM"
+        
+        }
+    }
+    
     // once the avc is completed, either segue to the new view, or return if cancelled
     func doneSharingHandler(activityType: String!, completed: Bool, returnedItems: [AnyObject]!, error: NSError!) {
         // Return if cancelled
@@ -221,6 +235,8 @@ class AddNewMemeViewController: UIViewController, UIImagePickerControllerDelegat
         }
         else {
             
+            // if textfields left empty -> convert the placeholder text into the stored text
+            turnPlaceholderTextIntoActualTextIfTextFieldsLeftEmpty()
             // store the meme image, the meme, and 2 textfields in the history array of type memeinstance
             self.history.append(memeInstance)
             // perform the segway
@@ -258,17 +274,5 @@ class AddNewMemeViewController: UIViewController, UIImagePickerControllerDelegat
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 

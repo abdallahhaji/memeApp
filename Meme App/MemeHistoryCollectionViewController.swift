@@ -33,7 +33,7 @@ class MemeHistoryCollectionViewController: UIViewController, UICollectionViewDat
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "addNewMeme")
         
         //flow layout attributes
-        let space: CGFloat = 2.0
+        let space: CGFloat = 0.5
         
         // fit exactly 3 cells with 2 spaces in b/w
         let dimension = (self.view.frame.size.width - (2 * space)) / 3.0
